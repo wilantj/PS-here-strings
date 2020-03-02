@@ -1,0 +1,77 @@
+<#
+
+Purpose:  3rd powershell lab. Practices use of: 
+here-strings
+piping commands
+writing and reading files
+conditional logic 
+
+Author: Tony Will
+File: sem2PSScripts
+Date: Feb 24, 2020
+
+#>
+cls
+
+cd $env:USERPROFILE
+Get-ChildItem -filter *.txt| Sort-Object name |Format-Table name, length
+
+$1= "Write a contact entry to a file"
+$2= "Display all files last written to after a given date"
+$3= "Read a specified text file"
+
+$message = @"
+What do you want to do?
+    1.$1
+    2.$2
+    3.$3
+
+
+
+"@
+$message
+
+$choice=read-host "Type in 1,2 or 3."
+
+if($choice -eq 1){
+   $name=read-host "Your full name:"
+   $phone=Read-Host "Your Phone Number:"
+   $email=Read-Host "Your Email:"
+   $file=read-host "The file you want to save to:"
+   add-content C:\users\wilantj\2240Stuff
+   read-host
+
+    }
+
+elseif($choice -eq 2) {
+$date= read-host "earliest date:"
+Get-ChildItem -Recurse |where-object {$_.LastWriteTime -ge "$date"-and $_.LastWriteTime-le "march 2,2020"}| sort-object lastwritetime| format-table lastwritetime,name
+
+    }
+
+elseif($choice -eq 3){
+    $filename= read-host "Text file:"
+    $exist= test-path -path $env:USERPROFILE\$filename
+
+
+    if($exist -eq $true){
+        get-content -path $env:USERPROFILE\$filename
+
+    }
+    Else {
+        Write-Output "The file does not exist"
+
+
+
+        
+        
+
+
+}
+
+else{
+    Write-Output " wilantj on 19201CND82594C8  has entered an invalid response, please try again"
+    }
+
+
+
